@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_02_172706) do
+ActiveRecord::Schema.define(version: 2021_05_26_233058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,6 +182,16 @@ ActiveRecord::Schema.define(version: 2021_05_02_172706) do
     t.index ["contact_type_group_id"], name: "index_contact_types_on_contact_type_group_id"
   end
 
+  create_table "emails", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "mailer_type"
+    t.string "sent_address"
+    t.string "subject"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_emails_on_user_id"
+  end
+
   create_table "emancipation_categories", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "mutually_exclusive", null: false
@@ -314,6 +324,7 @@ ActiveRecord::Schema.define(version: 2021_05_02_172706) do
   add_foreign_key "case_contacts", "casa_cases"
   add_foreign_key "case_contacts", "users", column: "creator_id"
   add_foreign_key "case_court_mandates", "casa_cases"
+  add_foreign_key "emails", "users"
   add_foreign_key "emancipation_options", "emancipation_categories"
   add_foreign_key "followups", "users", column: "creator_id"
   add_foreign_key "judges", "casa_orgs"
